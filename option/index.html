@@ -1,0 +1,131 @@
+<html>
+<head>
+    <script src='./dragula.js'></script>
+    <link href="./style.css" rel="stylesheet">
+</head>
+<body>
+<form action="/text" method="post">
+
+    <!--1 dl+add-->
+    <!--2 rm lib-->
+    <!--3 rec-->
+    <!--4 change SE-->
+    <!--5 add from lib-->
+    al+add<input name="fun" value="1" type="radio">
+    rm lib<input name="fun" value="2" type="radio">
+    rec <input name="fun" value="3" type="radio">
+    change SE <input name="fun" value="4" type="radio">
+    5 add from lib<input name="fun" value="5" type="radio">
+    <br><br>
+    auto <input name="auto" type="checkbox">
+    delete file <input name="df" type="checkbox">
+    <br><br>
+    link
+    <textarea name="link"></textarea>
+    <br><br>
+    Series <input name="series" type="text"><br><br>
+    Short <input name="short" type="text"><br><br>
+    Season <input name="season" type="text"><br><br>
+    Episode <input name="episode" type="text"><br><br>
+
+    inlib  <input name="pe" value="0" type="radio">
+    at position  <input name="pe" value="1" type="radio">
+    after ep <input name="pe" value="2" type="radio"><br><br>
+    Array <input name="array" type="text">
+    <br><br>
+    <button type="submit">send</button>
+    <br><br>
+</form>
+
+
+
+
+<button onclick="refresh()">refresh</button>
+<!--//TODO-->
+<table  cellspacing=10 style="background:pink;float:left;margin-left:10px">
+    <tbody id="qwe" style="border:10px">
+    </tbody>
+</table>
+<table  cellspacing=10 style="background:skyblue;float:left;margin-left:10px">
+    <tbody id="ttb" style="border:10px">
+    </tbody>
+</table>
+
+<button onclick="load('play',genIdL())">push</button>
+
+<script>
+
+function refresh(){
+    gg('lib','a','qwe')
+    gg('get','a','ttb')
+}
+
+
+function genIdL(){
+    return ls(document.getElementById("ttb").getElementsByClassName("one"))
+}
+
+function ls(a){
+    var c = ""
+    for (var i=0;i<a.length;i++){
+        c+=a[i].innerText+","
+    }
+    return c
+}
+
+
+dragula([document.getElementById("qwe"), document.getElementById("ttb")], {
+  copy: function (el, source) {
+    return source === document.getElementById("qwe")
+  },
+  accepts: function (el, target) {
+    return target !== document.getElementById("qwe")
+  },
+  removeOnSpill: true
+});
+
+
+    var xmlhttp;
+    function load(a,b){
+        url = "/"+a;
+        console.log(url)
+        xmlhttp=null;
+        if(window.XMLHttpRequest){
+            xmlhttp=new XMLHttpRequest();
+        }
+
+        if(xmlhttp!=null){
+              xmlhttp.onreadystatechange=state_Change;
+              xmlhttp.open("POST",url,true);
+              xmlhttp.send(b);
+        }
+
+        function state_Change(){
+        console.log(xmlhttp.responseText)
+
+    }
+
+
+        function state_Change(){
+        console.log(xmlhttp.responseText)
+
+    }
+
+
+    }
+        function gg(u,content,addto){
+
+        var x=new XMLHttpRequest();
+        url = "/"+u;
+
+        x.open("POST",url,true);
+        x.send(content);
+        x.onreadystatechange=function(){
+            document.getElementById(addto).innerHTML=x.responseText;
+        };
+        }
+
+</script>
+</body>
+
+</html>
